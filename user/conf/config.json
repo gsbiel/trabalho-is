@@ -1,0 +1,10 @@
+{
+    "amq_host":"amqp://guest:guest@localhost:5672",
+    "move_robot_function_name":"move_robot",
+    "locate_robot_function_name":"get_position",
+    "topic_to_control_the_robot":"Requisicao.Robo",
+    "message_to_start_the_controller":"Ligar Sistema",
+    "topic_to_start_the_controller":"Controller.Console",
+    "start_robot_in_position_x": 2,
+    "start_robot_in_position_y": 3
+}
