@@ -1,0 +1,10 @@
+{
+    "amq_host":"amqp://guest:guest@localhost:5672",
+    "start_system_probability":20,
+    "topic_to_control_the_robot":"Control.Robot",
+    "topic_to_locate_the_robot":"Locate.Robot",
+    "controller_topic":"Controller.Console",
+    "topic_to_interact_with_the_robot":"Requisicao.Robo",
+    "function_to_move_the_robot": "move_robot",
+    "function_to_locate_the_robot": "get_position"
+}

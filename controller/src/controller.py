@@ -7,13 +7,31 @@ from loguru import logger
 from time import sleep
 from random import randint
 from RequisicaoRobo_pb2 import RequisicaoRobo
+import os
+import json
 
-channel = Channel("amqp://guest:guest@localhost:5672")
+def read_configuration(config_path):
+  with open(config_path) as f:
+    return json.load(f)
+
+config_path = os.getenv('CONFIG_PATH', './conf/config.json')
+configs = read_configuration(config_path)
+
+AMQ_HOST = os.getenv('AMQ_HOST', configs["amq_host"])
+START_SYSTEM_PROBABILITY = os.getenv('START_SYSTEM_PROBABILITY', configs["start_system_probability"])
+TOPIC_TO_CONTROL_ROBOT = os.getenv('TOPIC_TO_CONTROL_ROBOT', configs["topic_to_control_the_robot"])
+TOPIC_TO_LOCATE_ROBOT = os.getenv('TOPIC_TO_LOCATE_ROBOT', configs["topic_to_locate_the_robot"])
+CONTROLLER_TOPIC = os.getenv('CONTROLLER_TOPIC', configs["controller_topic"])
+TOPIC_TO_INTERACT_WITH_ROBOT = os.getenv('TOPIC_TO_INTERACT_WITH_ROBOT', configs["topic_to_interact_with_the_robot"])
+FUNCTION_TO_MOVE_ROBOT = os.getenv('FUNCTION_TO_MOVE_ROBOT', configs["function_to_move_the_robot"])
+FUNCTION_TO_LOCATE_ROBOT = os.getenv('FUNCTION_TO_LOCATE_ROBOT', configs["function_to_locate_the_robot"])
+
+channel = Channel(AMQ_HOST)
 subscription = Subscription(channel)
 
 def turn_on_system():
     number = randint(0,100)
-    if number >=50:
+    if number >= (100 - START_SYSTEM_PROBABILITY):
         return True
     else:
         return False
@@ -34,12 +52,12 @@ def start_system(*args):
 
 def execute_function(*args):
 
-    if args[0].function == "move_robot":
+    if args[0].function == FUNCTION_TO_MOVE_ROBOT:
         logger.info("Got a request to move the robot.")
         position = Position(x=args[0].positions.x, y=args[0].positions.y)
         req_robo = Message(content=position, reply_to=subscription)
         logger.info("Sending request to the Robot...")
-        channel.publish(req_robo, topic="Control.Robot")
+        channel.publish(req_robo, topic=TOPIC_TO_CONTROL_ROBOT)
         logger.info("Waiting for an answer from the robot")
         reply = channel.consume(timeout=1.0)
         if reply.status.code == StatusCode.OK:
@@ -47,12 +65,12 @@ def execute_function(*args):
         else:
             return Status(StatusCode.INTERNAL_ERROR, f'The robot failed to move. Reason:{reply.status.why}')
 
-    elif args[0].function == "get_position":
+    elif args[0].function == FUNCTION_TO_LOCATE_ROBOT:
         logger.info("Got a request to locate the robot.")
         logger.info("Sending request to the Robot...")
         empty = Empty()
         req_robo = Message(content=empty, reply_to=subscription)
-        channel.publish(req_robo, topic="Locate.Robot")
+        channel.publish(req_robo, topic=TOPIC_TO_LOCATE_ROBOT)
         logger.info("Waiting for an answer from the robot")
         reply = channel.consume(timeout=1.0)
         position = reply.unpack(Position)
@@ -64,13 +82,13 @@ def execute_function(*args):
 provider = ServiceProvider(channel)
 
 provider.delegate(
-    topic="Controller.Console",
+    topic=CONTROLLER_TOPIC,
     function=start_system,
     request_type=Phrase,
     reply_type=Empty) 
 
 provider.delegate(
-    topic="Requisicao.Robo",
+    topic=TOPIC_TO_INTERACT_WITH_ROBOT,
     function=execute_function,
     request_type=RequisicaoRobo,
     reply_type=Empty)
