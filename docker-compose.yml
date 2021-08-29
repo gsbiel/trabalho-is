@@ -7,18 +7,26 @@ services:
         build:
             context: ./user/
             dockerfile: Dockerfile
+        depends_on: 
+            - "rabbitmq"
+            - "controller"
+            - "robot"
 
     controller:
         container_name: controller.app
         build:
             context: ./controller
             dockerfile: Dockerfile
+        depends_on: 
+            - "rabbitmq"
 
     robot:
         container_name: robot.app
         build:
             context: ./robot
             dockerfile: Dockerfile
+        depends_on: 
+            - "rabbitmq"
     
     rabbitmq:
         container_name: broker
