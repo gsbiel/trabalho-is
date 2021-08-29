@@ -70,6 +70,7 @@ def execute_function(*args):
         channel.publish(req_robo, topic=TOPIC_TO_CONTROL_ROBOT)
         logger.info("Waiting for an answer from the robot")
         reply = channel.consume(timeout=1.0)
+        logger.info("Returning the result back to the user")
         if reply.status.code == StatusCode.OK:
             return Status(StatusCode.OK, f'The robot changed its position.')
         else:
@@ -83,6 +84,7 @@ def execute_function(*args):
         channel.publish(req_robo, topic=TOPIC_TO_LOCATE_ROBOT)
         logger.info("Waiting for an answer from the robot")
         reply = channel.consume(timeout=1.0)
+        logger.info("Returning the result back to the user")
         position = reply.unpack(Position)
         return Status(StatusCode.OK, f'The robot is located at: ({position.x}, {position.y}).')
 
