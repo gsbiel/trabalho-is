@@ -26,6 +26,16 @@ TOPIC_TO_INTERACT_WITH_ROBOT = os.getenv('TOPIC_TO_INTERACT_WITH_ROBOT', configs
 FUNCTION_TO_MOVE_ROBOT = os.getenv('FUNCTION_TO_MOVE_ROBOT', configs["function_to_move_the_robot"])
 FUNCTION_TO_LOCATE_ROBOT = os.getenv('FUNCTION_TO_LOCATE_ROBOT', configs["function_to_locate_the_robot"])
 
+logger.info("Configuration:")
+logger.info(f'AMQ_HOST: {AMQ_HOST}')
+logger.info(f'START_SYSTEM_PROBABILITY: {START_SYSTEM_PROBABILITY}')
+logger.info(f'TOPIC_TO_CONTROL_ROBOT: {TOPIC_TO_CONTROL_ROBOT}')
+logger.info(f'TOPIC_TO_LOCATE_ROBOT: {TOPIC_TO_LOCATE_ROBOT}')
+logger.info(f'CONTROLLER_TOPIC: {CONTROLLER_TOPIC}')
+logger.info(f'TOPIC_TO_INTERACT_WITH_ROBOT: {TOPIC_TO_INTERACT_WITH_ROBOT}')
+logger.info(f'FUNCTION_TO_MOVE_ROBOT: {FUNCTION_TO_MOVE_ROBOT}')
+logger.info(f'FUNCTION_TO_LOCATE_ROBOT: {FUNCTION_TO_LOCATE_ROBOT}')
+
 channel = Channel(AMQ_HOST)
 subscription = Subscription(channel)
 

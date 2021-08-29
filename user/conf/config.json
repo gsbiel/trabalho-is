@@ -1,5 +1,5 @@
 {
-    "amq_host":"amqp://guest:guest@localhost:5672",
+    "amq_host":"amqp://guest:guest@rabbitmq:5672",
     "move_robot_function_name":"move_robot",
     "locate_robot_function_name":"get_position",
     "topic_to_control_the_robot":"Requisicao.Robo",

@@ -1,0 +1,29 @@
+version: '3.2'
+
+services:
+
+    user:
+        container_name: user.app
+        build:
+            context: ./user/
+            dockerfile: Dockerfile
+
+    controller:
+        container_name: controller.app
+        build:
+            context: ./controller
+            dockerfile: Dockerfile
+
+    robot:
+        container_name: robot.app
+        build:
+            context: ./robot
+            dockerfile: Dockerfile
+    
+    rabbitmq:
+        container_name: broker
+        image: rabbitmq:3.7.6-management
+        ports:
+            - '5672:5672'
+            - '15672:15672'
+

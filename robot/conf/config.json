@@ -1,5 +1,5 @@
 {
-    "amq_host":"amqp://guest:guest@localhost:5672",
+    "amq_host":"amqp://guest:guest@rabbitmq:5672",
     "topic_to_control_the_robot":"Control.Robot",
     "topic_to_locate_the_robot":"Locate.Robot",
     "start_robot_in_position_x": 1,
