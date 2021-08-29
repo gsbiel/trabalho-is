@@ -50,6 +50,13 @@ TOPIC_TO_LOCATE_ROBOT = os.getenv('TOPIC_TO_LOCATE_ROBOT', configs["topic_to_loc
 START_ROBOT_POSITION_X = os.getenv('START_ROBOT_POSITION_X', configs["start_robot_in_position_x"]) 
 START_ROBOT_POSITION_Y = os.getenv('START_ROBOT_POSITION_Y', configs["start_robot_in_position_y"])
 
+logger.info("Configuration:")
+logger.info(f'AMQ_HOST: {AMQ_HOST}')
+logger.info(f'TOPIC_TO_CONTROL_ROBOT: {TOPIC_TO_CONTROL_ROBOT}')
+logger.info(f'TOPIC_TO_LOCATE_ROBOT: {TOPIC_TO_LOCATE_ROBOT}')
+logger.info(f'START_ROBOT_POSITION_X: {START_ROBOT_POSITION_X}')
+logger.info(f'START_ROBOT_POSITION_Y: {START_ROBOT_POSITION_Y}')
+
 robot = Robot() 
 robot.id = 1
 robot.pos_x = START_ROBOT_POSITION_X

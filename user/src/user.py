@@ -25,6 +25,16 @@ TOPIC_TO_START_CONTROLLER = os.getenv('TOPIC_TO_START_CONTROLLER', configs["topi
 START_ROBOT_POSITION_X = os.getenv('START_ROBOT_POSITION_X', configs["start_robot_in_position_x"])
 START_ROBOT_POSITION_Y = os.getenv('START_ROBOT_POSITION_Y', configs["start_robot_in_position_y"])
 
+logger.info("Configuration:")
+logger.info(f'AMQ_HOST: {AMQ_HOST}')
+logger.info(f'MOVE_ROBOT_FUNCTION_NAME: {MOVE_ROBOT_FUNCTION_NAME}')
+logger.info(f'LOCATE_ROBOT_FUNCTION_NAME: {LOCATE_ROBOT_FUNCTION_NAME}')
+logger.info(f'TOPIC_TO_CONTROL_ROBOT: {TOPIC_TO_CONTROL_ROBOT}')
+logger.info(f'MESSAGE_TO_START_CONTROLLER: {MESSAGE_TO_START_CONTROLLER}')
+logger.info(f'TOPIC_TO_START_CONTROLLER: {TOPIC_TO_START_CONTROLLER}')
+logger.info(f'START_ROBOT_POSITION_X: {START_ROBOT_POSITION_X}')
+logger.info(f'START_ROBOT_POSITION_Y: {START_ROBOT_POSITION_Y}')
+
 channel = Channel(AMQ_HOST)
 subscription = Subscription(channel)
 
